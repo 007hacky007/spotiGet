@@ -7,7 +7,7 @@ class readline {
     private static function createOptionsArray(array $options){
         $result = array();
         foreach($options as $index => $desc){
-            $result[$index] = array("desc" => $desc, "on" => false);
+            $result[] = array("value" => $desc, "on" => false, "original_index" => $index);
         }
 
         return $result;
@@ -32,7 +32,7 @@ class readline {
     private static function enabledOptionsToArray($options){
         $result = array();
         foreach($options as $index => $data){
-            if($data["on"]) $result[$index] = true;
+            if($data["on"]) $result[$data["original_index"]] = $data["value"];
         }
 
         return $result;
@@ -46,7 +46,7 @@ class readline {
         do{
             echo "Available options\n----------------\n";
             foreach($options as $index => $values){
-                echo self::bool2Char($values["on"])."${index}) ".$values["desc"]."\n";
+                echo self::bool2Char($values["on"])."${index}) ".$values["original_index"]."\n";
             }
             echo "----------------\n";
         }while(self::switchOption($result = readline(self::$prompt), $options));
