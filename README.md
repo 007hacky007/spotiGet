@@ -1,6 +1,6 @@
-## SpotiDL
+## SpotiGet
 
-SpotiDL is very simple set of PHP classes written in order to get data and use Spotify API.
+SpotiGet is very simple set of PHP classes written in order to get data and use Spotify API.
 While I know there are at least already two existing Spotify PHP API solutions,
 I missed one simple, say "vanilla", solution which would not require stuff like composer.
 
@@ -16,8 +16,9 @@ I missed one simple, say "vanilla", solution which would not require stuff like 
 
 ## Intended usages (and the actual reason I wrote this)
 
-* Generate albums' Spotify URIs for further usage (psst! "usage" means "download artist discography") with **spotiload**
+* `php artist2albums.php` Generate albums' Spotify URIs for further usage (psst! "usage" means "download artist discography") with **spotiload**
 (https://bitbucket.org/OlgahWolgah/spotiload - great piece of sw btw!)
+    * put your credentials to `config.ini-example` and rename to `config.ini`
 * \[not done yet\] Convert set of mp3s in directory to Spotify playlists (you know what I mean... you have set of mp3s in
 layout like this: artist/track_name.mp3 and you want it convert to Spotify playlists. I did not find any
 solution for this stuff)
