@@ -49,6 +49,6 @@ class playlist {
     }
 
     public function getAlbumTracks($spotifyAlbumID){
-        return $this->stripApiResponse($this->apiRequest("/v1/artists/$spotifyAlbumID/tracks", array("market" => self::market)));
+        return $this->stripApiResponse($this->apiRequest("/v1/albums/$spotifyAlbumID/tracks", array("market" => self::market)));
     }
 }
