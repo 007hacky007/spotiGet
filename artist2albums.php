@@ -29,12 +29,9 @@ foreach($albums as $album => $albumID){
     foreach($api->getAlbumTracks($albumID) as $name => $trackID) {
         $tracks .= sprintf("%02d_%s ", $i, str_replace(" ", "_", $name));
         $i++;
-        try {
-            $totalAlbumDurationMs[$album] += $api->getTrackLength($trackID); // FIXME: get it via getAlbumTracks instead to speed things up
-        } catch (Exception $e) {
-            $err = "Could not get track duration info :(";
-        }
     }
+
+    $totalAlbumDurationMs[$album] += $api->getLastAlbumLength();
     echo wordwrap($tracks);
     echo "\n---------$err----------\n\n";
 }

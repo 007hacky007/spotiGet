@@ -5,6 +5,8 @@ class playlist {
     public $token_type = "Bearer";
     const apiDomain = "api.spotify.com";
     const market = "CZ";
+    private $lastAlbumLengthMs = 0;
+    // todo: add simple statistics
 
     private function apiRequest($endpoint, array $params){
         if(empty($this->token)) throw new Exception("Missing token (\$this->token)");
@@ -49,7 +51,15 @@ class playlist {
     }
 
     public function getAlbumTracks($spotifyAlbumID){
-        return $this->stripApiResponse($this->apiRequest("/v1/albums/$spotifyAlbumID/tracks", array("market" => self::market)));
+        $response = $this->apiRequest("/v1/albums/$spotifyAlbumID/tracks", array("market" => self::market));
+        $this->lastAlbumLengthMs = 0;
+        foreach($response["items"] as $item) $this->lastAlbumLengthMs += $item["duration_ms"];
+
+        return $this->stripApiResponse($response);
+    }
+
+    public function getLastAlbumLength(){
+        return $this->lastAlbumLengthMs;
     }
 
     public function getTrackLength($spotifyTrackID){
