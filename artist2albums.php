@@ -44,5 +44,7 @@ foreach($albumsSelected as $albumName => $spotifyID){
     echo "spotify:album:$spotifyID\n";
 }
 
+echo "\nSpotify API called: ".$api->getApiStats()." times\n";
+
 $totalDurationS = (0.6 * $totalDurationMs) / 1000; // subtract 40%, b/c spotiload have ~150% speedup
-echo "\nDL time (approx): ".gmdate("H \h\o\u\\r\s i \m\i\\n\u\\t\\e\s", $totalDurationS)."\n";
+echo "DL time (approx): ".gmdate("H \h\o\u\\r\s i \m\i\\n\u\\t\\e\s", $totalDurationS)."\n";

@@ -6,7 +6,7 @@ class playlist {
     const apiDomain = "api.spotify.com";
     const market = "CZ";
     private $lastAlbumLengthMs = 0;
-    // todo: add simple statistics
+    private $stats = 0;
 
     private function apiRequest($endpoint, array $params){
         if(empty($this->token)) throw new Exception("Missing token (\$this->token)");
@@ -27,6 +27,7 @@ class playlist {
             throw new Exception('Curl error:' . curl_error($ch));
         }
         curl_close ($ch);
+        $this->stats++;
 
         return json_decode($result, true);
     }
@@ -67,5 +68,9 @@ class playlist {
         if(!isset($response["duration_ms"])) throw new Exception("There was an error when getting track duration");
 
         return $response["duration_ms"];
+    }
+
+    public function getApiStats(){
+        return $this->stats;
     }
 }
