@@ -51,4 +51,11 @@ class playlist {
     public function getAlbumTracks($spotifyAlbumID){
         return $this->stripApiResponse($this->apiRequest("/v1/albums/$spotifyAlbumID/tracks", array("market" => self::market)));
     }
+
+    public function getTrackLength($spotifyTrackID){
+        $response = $this->apiRequest("/v1/tracks/$spotifyTrackID", array("market" => self::market));
+        if(!isset($response["duration_ms"])) throw new Exception("There was an error when getting track duration");
+
+        return $response["duration_ms"];
+    }
 }

@@ -23,16 +23,29 @@ $albums = $api->getArtistAlbums(array_values($artist)[0]);
 foreach($albums as $album => $albumID){
     $i=1;
     $tracks = "";
+    $err = "";
+    $totalAlbumDurationMs[$album] = 0;
     echo $album."\n";
     foreach($api->getAlbumTracks($albumID) as $name => $trackID) {
         $tracks .= sprintf("%02d_%s ", $i, str_replace(" ", "_", $name));
         $i++;
+        try {
+            $totalAlbumDurationMs[$album] += $api->getTrackLength($trackID); // FIXME: get it via getAlbumTracks instead to speed things up
+        } catch (Exception $e) {
+            $err = "Could not get track duration info :(";
+        }
     }
     echo wordwrap($tracks);
-    echo "\n-------------------\n\n";
+    echo "\n---------$err----------\n\n";
 }
 
 $albumsSelected = readline::readAnswers($albums);
+
+$totalDurationMs = 0;
 foreach($albumsSelected as $albumName => $spotifyID){
-    echo "spotify:album:$spotifyID";
+    if(isset($totalAlbumDurationMs[$albumName])) $totalDurationMs += $totalAlbumDurationMs[$albumName];
+    echo "spotify:album:$spotifyID\n";
 }
+
+$totalDurationS = (0.6 * $totalDurationMs) / 1000; // subtract 40%, b/c spotiload have ~150% speedup
+echo "\nDL time (approx): ".gmdate("H \h\o\u\\r\s i \m\i\\n\u\\t\\e\s", $totalDurationS)."\n";
